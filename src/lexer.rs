@@ -88,6 +88,7 @@ impl Lexer {
                 self.position += 1;
                 Ok(Token::LessThan)
             }
+            '\'' | '"' => self.read_string(),
             '=' => {
                 self.position += 1;
                 Ok(Token::Equals)
@@ -97,6 +98,26 @@ impl Lexer {
             _ => Err(format!("Unexpected character: {}", ch))
         }
     }
+
+    fn read_string(&mut self) -> Result<Token, String> {
+        let quote = self.input[self.position];
+        self.position += 1;
+
+        let mut string = String::new();
+
+        while self.position < self.input.len() && self.input[self.position] != quote {
+            string.push(self.input[self.position]);
+            self.position += 1;
+        }
+
+        if self.position >= self.input.len() {
+            return Err("Unexpected string literal".to_string());
+        }
+
+        self.position += 1;
+        Ok(Token::StringLiteral(string))
+    }
+
 
     fn read_identifer_or_keyword(&mut self) -> Result<Token, String> {
         let mut str_rep = String::new();

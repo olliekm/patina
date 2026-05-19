@@ -4,18 +4,18 @@ use crate::lexer::Token;
 #[derive(Debug, Clone)]
 pub struct SelectStatement {
     /// Specifies which columns are selected in the statement.
-    columns: ColumnSelection,
+    pub columns: ColumnSelection,
     /// The table from which to select.
-    table: String,
+    pub table: String,
     /// Optional WHERE clause for filtering results.
-    where_clause: Option<WhereClause>,
+    pub where_clause: Option<WhereClause>,
 }
 #[derive(Debug, Clone)]
 pub struct WhereClause {
-    column: String,
-    operator: Operator,
+    pub column: String,
+    pub operator: Operator,
     /// The value to compare the column against.
-    value: Value,
+    pub value: Value,
 }
 #[derive(Debug, Clone)]
 pub enum ColumnSelection {
